@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>aerion.portable</id>
+    <version>0.2.4</version>
+    <title>Aerion (Portable)</title>
+    <authors>hkdb</authors>
+    <owners>Infiniti151</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/hkdb/aerion/blob/main/LICENSE</licenseUrl>
+    <projectUrl>https://aerion.3df.io</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/hkdb/aerion/main/build/appicon.png</iconUrl>
+    <summary>Aerion is a standalone lightweight e-mail client</summary>
+    <description>Aerion is a standalone lightweight e-mail client inspired by [Geary](https://wiki.gnome.org/Apps/Geary).
+
+## Goals
+- Resource Efficiency - Minimal CPU, RAM, and battery consumption
+- Modern UX - Clean, intuitive interface with dark mode support
+- Keyboard and Mouse Friendly - Full keyboard navigation with vim-style shortcuts
+- Independence - No dependency on Gnome Online Accounts or other system services
+- Search That Works - Basic search that actually finds your emails
+
+## Features
+- Multiple Accounts
+- Providers: (🧪 = NOT YET TESTED)
+  - Generic IMAP/SMTP
+  - GMail
+  - Microsoft 365 / Outlook
+  - Yahoo
+  - Proton Mail (via Proton Bridge)
+  - iCloud Mail
+  - Fastmail 🧪
+  - Zoho Mail 🧪
+  - AOL Mail 🧪
+  - GMX Mail
+  - Mail.com 🧪
+- Unified Inbox (Color Code Accounts)
+- Conversation Threads
+- Basic Removal of Tracking Elements in Mail Content
+- WYSIWYG Detachable Composer ([TipTap Editor](https://github.com/ueberdosis/tiptap))
+- WYSIWYG Signatures ([TipTap Editor](https://github.com/ueberdosis/tiptap))
+- CardDav/Google/Microsoft Contact Sync for auto-complete
+- Basic Local and IMAP Search
+- Notification that brings focus to the e-mail when clicked
+- Auto-Sync when system wakes from suspend
+- Multiple color themes
+- PGP and S/MIME support
+- [Keyboard Shortcuts](https://github.com/hkdb/aerion/blob/main/docs/KEYBOARD_SHORTCUTS.md)
+
+## Licensing
+- **Package Maintenance Scripts:** Licensed under the GNU General Public License v3.0 (GPLv3).
+- **Underlying Software (Aerion):** Licensed under the Apache License 2.0 by the original authors.</description>
+    <releaseNotes>https://github.com/hkdb/aerion/blob/main/CHANGELOG.md</releaseNotes>
+    <tags>email mail client portable foss cross-platform</tags>
+    <projectSourceUrl>https://github.com/hkdb/aerion</projectSourceUrl>
+    <packageSourceUrl>https://github.com/Infiniti151/aerion-chocolatey</packageSourceUrl>
+    <bugTrackerUrl>https://github.com/hkdb/aerion/issues</bugTrackerUrl>
+    <docsUrl>https://aerion.3df.io/docs/intro</docsUrl>
+  </metadata>
+
+  <files>
+    <file src="**" target="\" exclude="update.ps1" />
+  </files>
+</package>

@@ -1,0 +1,100 @@
+name: Daily Update & Release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * *"
+
+jobs:
+  check-release:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.compare-versions.outputs.should_run }}
+      upstream_version: ${{ steps.upstream.outputs.version }}
+    steps:
+      - name: Checkout aerion.nuspec
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          sparse-checkout: |
+            aerion/aerion.nuspec
+
+      - name: Fetch Latest Upstream Version
+        id: upstream
+        run: |
+          UPSTREAM_VERSION=$(curl -s https://api.github.com/repos/hkdb/aerion/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+          echo "version=$UPSTREAM_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Fetch Local Main Nuspec Version
+        id: local
+        run: |
+          LOCAL_VERSION=$(grep -oP '(?<=<version>).*?(?=</version>)' aerion/aerion.nuspec | head -n 1)
+          echo "version=$LOCAL_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Compare Versions
+        id: compare-versions
+        env:
+          UPSTREAM: ${{ steps.upstream.outputs.version }}
+          LOCAL: ${{ steps.local.outputs.version }}
+          CYAN: '\033[0;36m'
+          GREEN: '\033[0;32m'
+          YELLOW: '\033[0;33m'
+          NC: '\033[0m'
+        run: |
+          echo -e "${CYAN}Upstream release version: $UPSTREAM${NC}"
+          echo -e "${CYAN}Local repository version: $LOCAL${NC}"
+          
+          if [ "$UPSTREAM" != "$LOCAL" ]; then
+            echo -e "${GREEN}New release detected upstream! Triggering packaging pipeline.${NC}"
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          else
+            echo -e "${YELLOW}No new updates found. Sleeping pipeline.${NC}"
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+  build:
+    needs: check-release
+    if: ${{ needs.check-release.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch' }}
+    runs-on: windows-latest
+    permissions:
+      id-token: write
+      contents: write
+      attestations: write
+      artifact-metadata: write
+    steps:
+      - name: Checkout Package Source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Install AU
+        run: choco install au -y
+
+      - name: Run AU updateall Sequencer
+        run: |
+          .\updateall.ps1
+
+      - name: Commit version bump via GitHub API
+        uses: suzuki-shunsuke/commit-action@06e3b49d4706498d325d29bd85adc82ecf2f5d8f # v1.0.0
+        id: ghcommit
+        with:
+          commit_message: "🤖 Automated version bump to v${{ needs.check-release.outputs.upstream_version }}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Attest Chocolatey Packages (SLSA Provenance)
+        uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4
+        with:
+          subject-path: out/*.nupkg
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3
+        with:
+          tag_name: "v${{ needs.check-release.outputs.upstream_version }}"
+          name: "v${{ needs.check-release.outputs.upstream_version }}"
+          files: out/*.nupkg
+          body: |
+            ## Aerion Chocolatey Package `v${{ needs.check-release.outputs.upstream_version }}`
+
+            This is an automated tracking release providing the latest compiled Chocolatey package for **Aerion**.
+
+      - name: Push to Public Chocolatey Feed Directory
+        run: |
+          choco push out/*.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
