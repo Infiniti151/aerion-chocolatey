@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>aerion</id>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
     <title>Aerion</title>
     <authors>hkdb</authors>
     <owners>Infiniti151</owners>
@@ -53,7 +53,7 @@
     <bugTrackerUrl>https://github.com/hkdb/aerion/issues</bugTrackerUrl>
     <docsUrl>https://aerion.3df.io/docs/intro</docsUrl>
     <dependencies>
-      <dependency id="aerion.install" version="[0.2.4]" />
+      <dependency id="aerion.install" version="[0.2.5]" />
     </dependencies>
   </metadata>
 </package>
