@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>aerion.portable</id>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
     <title>Aerion (Portable)</title>
     <authors>hkdb</authors>
     <owners>Infiniti151</owners>
@@ -45,11 +45,7 @@
 - Auto-Sync when system wakes from suspend
 - Multiple color themes
 - PGP and S/MIME support
-- [Keyboard Shortcuts](https://github.com/hkdb/aerion/blob/main/docs/KEYBOARD_SHORTCUTS.md)
-
-## Licensing
-- **Package Maintenance Scripts:** Licensed under the GNU General Public License v3.0 (GPLv3).
-- **Underlying Software (Aerion):** Licensed under the Apache License 2.0 by the original authors.</description>
+- [Keyboard Shortcuts](https://github.com/hkdb/aerion/blob/main/docs/KEYBOARD_SHORTCUTS.md)</description>
     <releaseNotes>https://github.com/hkdb/aerion/blob/main/CHANGELOG.md</releaseNotes>
     <tags>email mail client portable foss cross-platform</tags>
     <projectSourceUrl>https://github.com/hkdb/aerion</projectSourceUrl>
@@ -57,8 +53,4 @@
     <bugTrackerUrl>https://github.com/hkdb/aerion/issues</bugTrackerUrl>
     <docsUrl>https://aerion.3df.io/docs/intro</docsUrl>
   </metadata>
-
-  <files>
-    <file src="**" target="\" exclude="update.ps1" />
-  </files>
 </package>

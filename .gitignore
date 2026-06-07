@@ -1,7 +1,6 @@
 # Chocolatey
 out
 aerion.*/tools/*.exe
-aerion.*/legal/VERIFICATION.txt
 
 # Editor
 .vscode

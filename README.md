@@ -1,4 +1,11 @@
-# Aerion-Chocolatey
+<div align="center">
+
+[![Chocolatey Banner](https://github.com/Amitie10g/chocolatey-docker/assets/2096562/de3b0df5-2d3d-4275-a85d-dc0cc442c5e8)](https://chocolatey.org)
+
+# Aerion Package Feed
+### Native Automated Deployment Streams for AMD64 & ARM64
+
+</div>
 
 [![Build](https://img.shields.io/github/actions/workflow/status/Infiniti151/aerion-chocolatey/build.yml?branch=main&style=for-the-badge&logo=github-actions&logoColor=white&label=Build)](https://github.com/Infiniti151/aerion-chocolatey/actions/workflows/build.yml)
 [![Latest Release](https://img.shields.io/github/v/release/Infiniti151/aerion-chocolatey?style=for-the-badge&logo=github&logoColor=white&label=Release)](https://github.com/Infiniti151/aerion-chocolatey/releases)
@@ -6,11 +13,20 @@
 [![aerion.portable](https://img.shields.io/chocolatey/v/aerion.portable?style=for-the-badge&logo=chocolatey&logoColor=white&label=aerion.portable)](https://community.chocolatey.org/packages/aerion.portable)
 [![License](https://img.shields.io/github/license/Infiniti151/aerion-chocolatey?style=for-the-badge&logo=spdx&logoColor=white&label=License)](https://github.com/Infiniti151/aerion-chocolatey/blob/main/LICENSE)
 
-An automated Chocolatey package repository for **[Aerion](https://github.com/hkdb/aerion)** email client. This repository maintains up-to-date deployment scripts for both the native installer and portable configurations.
+
+An automated Chocolatey package repository for **[Aerion](https://aerion.3df.io/)** email client. This repository maintains up-to-date deployment scripts for both the native installer and portable configurations.
 
 ---
 
 ## 🚀 Installation
+
+### Prerequisites
+
+Before installing Aerion, you must have Chocolatey installed on your system. If you don't have it yet, open an **Administrative PowerShell** session and run the following command to install it:
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
 
 You can install Aerion through the Chocolatey feed using your preferred layout:
 

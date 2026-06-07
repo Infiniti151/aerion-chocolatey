@@ -1,0 +1,28 @@
+$ErrorActionPreference = 'Stop'
+
+$PackageName  = 'aerion.portable'
+$ToolsDir     = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
+
+$ExeName      = 'aerion.exe'
+$FileFullPath = Join-Path $ToolsDir $ExeName
+
+$Url          = '[[Url]]'
+$Checksum     = '[[Checksum]]'
+
+if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64' -or $env:PROCESSOR_ARCHITEW6432 -eq 'ARM64') {
+    $Url          = '[[UrlArm]]'
+    $Checksum     = '[[ChecksumArm]]'
+}
+
+$PackageArgs  = @{
+    PackageName   = $PackageName
+    FileFullPath  = $FileFullPath
+    Url           = $Url
+    Checksum      = $Checksum
+    ChecksumType  = 'sha256'
+}
+
+Get-ChocolateyWebFile @PackageArgs
+
+
+

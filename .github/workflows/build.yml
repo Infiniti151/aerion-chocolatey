@@ -13,7 +13,7 @@ jobs:
       upstream_version: ${{ steps.upstream.outputs.version }}
     steps:
       - name: Checkout aerion.nuspec
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           sparse-checkout: |
             aerion/aerion.nuspec
@@ -62,12 +62,11 @@ jobs:
       artifact-metadata: write
     steps:
       - name: Checkout Package Source
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
 
-      - name: Install AU
-        run: choco install au -y
-
-      - name: Run AU updateall Sequencer
+      - name: Run Native Update Engine Script
+        env:
+          UPSTREAM_VERSION: ${{ needs.check-release.outputs.upstream_version }}
         run: |
           .\updateall.ps1
 
@@ -76,6 +75,7 @@ jobs:
         id: ghcommit
         with:
           commit_message: "🤖 Automated version bump to v${{ needs.check-release.outputs.upstream_version }}"
+          fail_on_self_push: false
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -96,5 +96,14 @@ jobs:
             This is an automated tracking release providing the latest compiled Chocolatey package for **Aerion**.
 
       - name: Push to Public Chocolatey Feed Directory
+        id: choco-push
         run: |
+          Write-Host "Publishing compiled payloads to the public Chocolatey Community Feed..." -ForegroundColor Cyan
+          
           choco push out/*.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
+          
+          if ($LASTEXITCODE -ne 0) {
+              Write-Output "::error title=Chocolatey Push Failed::The 'choco push' command exited with code $LASTEXITCODE."
+              exit 1
+          }
+          Write-Host "✅ Chocolatey package push completed successfully." -ForegroundColor Green
