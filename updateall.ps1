@@ -34,7 +34,7 @@ if ($env:GITHUB_TOKEN) {
     $Headers.Add("Authorization", "Bearer $env:GITHUB_TOKEN")
 }
 
-if ($env:UPSTREAM_VERSION) {
+if ($env:UPSTREAM_VERSION -and $env:UPSTREAM_VERSION -ne "null" -and -not [string]::IsNullOrWhiteSpace($env:UPSTREAM_VERSION)) {
     $NewVersion = $env:UPSTREAM_VERSION
     Write-Host "🤖 CI Environment Detected. Using version from workflow context: $NewVersion" -ForegroundColor Green
     Write-Host "🔍 Fetching release asset schema from GitHub API (Authenticated)..." -ForegroundColor Cyan
