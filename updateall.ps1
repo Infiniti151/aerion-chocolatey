@@ -26,14 +26,22 @@ if (-not (Test-Path $OutputDir)) {
 }
 
 # ---------------------------------------------------------------------
-# 1. RESOLVE TARGET VERSION
+# 1. RESOLVE TARGET VERSION & FETCH RELEASE
 # ---------------------------------------------------------------------
+$Headers = @{"User-Agent"="Custom-Choco-Updater"}
+
+if ($env:GITHUB_TOKEN) {
+    $Headers.Add("Authorization", "Bearer $env:GITHUB_TOKEN")
+}
+
 if ($env:UPSTREAM_VERSION) {
     $NewVersion = $env:UPSTREAM_VERSION
     Write-Host "🤖 CI Environment Detected. Using version from workflow context: $NewVersion" -ForegroundColor Green
+    Write-Host "🔍 Fetching release asset schema from GitHub API (Authenticated)..." -ForegroundColor Cyan
+    $Release = Invoke-RestMethod -Uri "https://api.github.com/repos/hkdb/aerion/releases/latest" -Headers $Headers
 } else {
-    Write-Host "🔍 Fetching latest release data from GitHub API..." -ForegroundColor Cyan
-    $Release = Invoke-RestMethod -Uri "https://api.github.com/repos/hkdb/aerion/releases/latest" -Headers @{"User-Agent"="Custom-Choco-Updater"}
+    Write-Host "🔍 Fetching latest release data from GitHub API (Unauthenticated)..." -ForegroundColor Cyan
+    $Release = Invoke-RestMethod -Uri "https://api.github.com/repos/hkdb/aerion/releases/latest" -Headers $Headers
     $RawVersion = $Release.tag_name.TrimStart("v")
     $NewVersion = $RawVersion -split '\+' | Select-Object -First 1
     Write-Host "✨ Latest Upstream Version resolved for Public Feed: $NewVersion" -ForegroundColor Green
@@ -61,17 +69,37 @@ Write-Host "🚀 Initiating dynamic artifact acquisition pipeline..." -Foregroun
 # ---------------------------------------------------------------------
 # 3. PARSE & VALIDATE UPSTREAM ASSETS
 # ---------------------------------------------------------------------
-# Installer Executables (.install target)
-$SetupAmd64Url = [string]($Release.assets.browser_download_url | Where-Object { $_ -match 'windows-setup-amd64\.exe$' })
-$SetupArm64Url = [string]($Release.assets.browser_download_url | Where-Object { $_ -match 'windows-setup-arm64\.exe$' })
+Write-Host "🔍 Unrolling release asset inventory..." -ForegroundColor Cyan
 
-# Raw Executables (.portable target)
-$PortAmd64Url  = [string]($Release.assets.browser_download_url | Where-Object { $_ -match 'windows-amd64\.exe$' -and $_ -notmatch 'setup' })
-$PortArm64Url  = [string]($Release.assets.browser_download_url | Where-Object { $_ -match 'windows-arm64\.exe$' -and $_ -notmatch 'setup' })
+$AssetList = @($Release.assets)
+
+if ($AssetList.Count -eq 0) {
+    throw "❌ Critical Error: The GitHub Release API returned 0 assets for this version! Check if the release is still a draft."
+}
+
+$SetupAmd64Url = [string]($AssetList | Where-Object { $_.browser_download_url -match 'windows-setup-amd64\.exe$' } | Select-Object -ExpandProperty browser_download_url -ErrorAction SilentlyContinue)
+$SetupArm64Url = [string]($AssetList | Where-Object { $_.browser_download_url -match 'windows-setup-arm64\.exe$' } | Select-Object -ExpandProperty browser_download_url -ErrorAction SilentlyContinue)
+
+$PortAmd64Url  = [string]($AssetList | Where-Object { $_.browser_download_url -match 'windows-amd64\.exe$' -and $_.browser_download_url -notmatch 'setup' } | Select-Object -ExpandProperty browser_download_url -ErrorAction SilentlyContinue)
+$PortArm64Url  = [string]($AssetList | Where-Object { $_.browser_download_url -match 'windows-arm64\.exe$' -and $_.browser_download_url -notmatch 'setup' } | Select-Object -ExpandProperty browser_download_url -ErrorAction SilentlyContinue)
 
 if (-not $SetupAmd64Url -or -not $SetupArm64Url -or -not $PortAmd64Url -or -not $PortArm64Url) {
+    Write-Host "`n❗ Asset matching signature failure detected. Printing full asset inventory from GitHub:" -ForegroundColor Red
+    foreach ($Asset in $AssetList) {
+        Write-Host "   • Found Asset File: $($Asset.name)" -ForegroundColor DarkYellow
+        Write-Host "     Download URL: $($Asset.browser_download_url)" -ForegroundColor DarkGray
+    }
+    
+    Write-Host "`nMatched Resolvers Evaluation State:" -ForegroundColor Yellow
+    Write-Host "  -> Setup x64: $(if ($SetupAmd64Url) { $SetupAmd64Url } else { 'MISSING ❌' })"
+    Write-Host "  -> Setup ARM64: $(if ($SetupArm64Url) { $SetupArm64Url } else { 'MISSING ❌' })"
+    Write-Host "  -> Portable x64: $(if ($PortAmd64Url) { $PortAmd64Url } else { 'MISSING ❌' })"
+    Write-Host "  -> Portable ARM64: $(if ($PortArm64Url) { $PortArm64Url } else { 'MISSING ❌' })`n"
+
     throw "❌ Critical Error: Could not resolve all 4 architecture assets from the GitHub Release schema!"
 }
+
+Write-Host "🎯 Safely resolved all 4 deployment target binaries!" -ForegroundColor Green
 
 # ---------------------------------------------------------------------
 # 4. DOWNLOAD ASSETS & CALCULATE TRUE CRYPTOGRAPHIC HASHES
@@ -189,7 +217,7 @@ foreach ($Package in $Packages) {
             throw "❌ Critical Error: Output file at '$($File.Output)' was created but is empty (0 bytes)."
         }
     }
-    Write-Host "🛠  Compiled file configurations safely from master blueprints!" -ForegroundColor Green
+    Write-Host "🛠️  Compiled file configurations safely from master blueprints!" -ForegroundColor Green
 
     # ---------------------------------------------------------------------
     # 6. COMPILE CHOCO PACKAGES (.NUPKG)

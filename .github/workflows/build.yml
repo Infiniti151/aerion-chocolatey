@@ -67,6 +67,7 @@ jobs:
       - name: Run Native Update Engine Script
         env:
           UPSTREAM_VERSION: ${{ needs.check-release.outputs.upstream_version }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           .\updateall.ps1
 
