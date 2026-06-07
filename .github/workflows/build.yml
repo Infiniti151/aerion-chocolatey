@@ -99,14 +99,18 @@ jobs:
             This is an automated tracking release providing the latest compiled Chocolatey package for **Aerion**.
 
       - name: Push to Public Chocolatey Feed Directory
-        id: choco-push
         run: |
           Write-Host "Publishing compiled payloads to the public Chocolatey Community Feed..." -ForegroundColor Cyan
           
-          choco push out/*.nupkg --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
-          
-          if ($LASTEXITCODE -ne 0) {
-              Write-Output "::error title=Chocolatey Push Failed::The 'choco push' command exited with code $LASTEXITCODE."
-              exit 1
+          Get-ChildItem out/*.nupkg | ForEach-Object {
+              Write-Host "🚀 Pushing package: $($_.Name)" -ForegroundColor Yellow
+              
+              choco push $_.FullName --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
+              
+              if ($LASTEXITCODE -ne 0) {
+                  Write-Output "::error title=Chocolatey Push Failed::Failed to push package '$($_.Name)'. Terminating deployment pipeline."
+                  exit 1
+              }
           }
-          Write-Host "✅ Chocolatey package push completed successfully." -ForegroundColor Green
+
+          Write-Host "✅ All Chocolatey packages pushed successfully!" -ForegroundColor Green
