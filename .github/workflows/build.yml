@@ -83,12 +83,12 @@ jobs:
           fail_on_self_push: false
 
       - name: Attest Chocolatey Packages (SLSA Provenance)
-        uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4
+        uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
         with:
           subject-path: out/*.nupkg
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3
+        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
         with:
           tag_name: "v${{ needs.check-release.outputs.upstream_version }}"
           name: "v${{ needs.check-release.outputs.upstream_version }}"
