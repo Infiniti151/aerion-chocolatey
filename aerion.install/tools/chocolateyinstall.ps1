@@ -3,12 +3,12 @@ $ErrorActionPreference = 'Stop'
 $PackageName = 'aerion.install'
 $ToolsDir    = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
 
-$Url         = 'https://github.com/hkdb/aerion/releases/download/v0.2.5/Aerion-windows-setup-amd64.exe'
-$Checksum    = 'fca7967e519f62ecd02732b034eb48c7fa1705515084d97bacf038b1c7477258'
+$Url         = 'https://github.com/hkdb/aerion/releases/download/v0.3.2/Aerion-windows-setup-amd64.exe'
+$Checksum    = 'dc98ef2c2ad4233e1c837987f3e255323dd8401f61a600470ed968246db43f77'
 
 if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64' -or $env:PROCESSOR_ARCHITEW6432 -eq 'ARM64') {
-    $Url         = 'https://github.com/hkdb/aerion/releases/download/v0.2.5/Aerion-windows-setup-arm64.exe'
-    $Checksum    = '78a352a6fa9929ec2b7723a3dd7b8382c1601cd69b8acac6ba0a03384ac93472'
+    $Url         = 'https://github.com/hkdb/aerion/releases/download/v0.3.2/Aerion-windows-setup-arm64.exe'
+    $Checksum    = 'a136fde00b51e41a6d585aad845d2ae0a662de40eee430fcf6a1cd0dc32ca617'
 }
 
 $PackageArgs = @{
