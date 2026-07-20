@@ -9,10 +9,6 @@
 
 [![Build](https://img.shields.io/github/actions/workflow/status/Infiniti151/aerion-chocolatey/build.yml?branch=main&style=for-the-badge&logo=github-actions&logoColor=white&label=Build)](https://github.com/Infiniti151/aerion-chocolatey/actions/workflows/build.yml) [![Latest Release](https://img.shields.io/github/v/release/Infiniti151/aerion-chocolatey?style=for-the-badge&logo=github&logoColor=white&label=Release)](https://github.com/Infiniti151/aerion-chocolatey/releases) [![aerion.install](https://img.shields.io/chocolatey/v/aerion.install?style=for-the-badge&logo=chocolatey&logoColor=white&color=5C9FD8&label=aerion.install)](https://community.chocolatey.org/packages/aerion.install) [![aerion.portable](https://img.shields.io/chocolatey/v/aerion.portable?style=for-the-badge&logo=chocolatey&logoColor=white&color=5C9FD8&label=aerion.portable)](https://community.chocolatey.org/packages/aerion.portable) [![License](https://img.shields.io/github/license/Infiniti151/aerion-chocolatey?style=for-the-badge&logo=spdx&logoColor=white&color=yellow&label=License)](https://github.com/Infiniti151/aerion-chocolatey/blob/main/LICENSE)
 
-> [!IMPORTANT]
-> Packages are currently awaiting review on Chocolatey, so they are not yet listed on the public feed.
->
-
 An automated Chocolatey package repository for **[Aerion](https://aerion.3df.io/)** email client. This repository maintains an up-to-date packaging script which handles both the native installer and portable configurations.
 
 ---
