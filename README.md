@@ -50,7 +50,8 @@ For the Portable Binary
 ```powerShell
 choco upgrade aerion.portable
 ```
-Tip: You can update all your installed Chocolatey packages at once by running `choco upgrade all -y`.
+> [!Tip]
+> You can update all your installed Chocolatey packages at once by running `choco upgrade all -y`.
 
 ## ❌ Uninstallation
 If you need to completely remove Aerion from your system, running the uninstall command will clean up the application binaries, strip out environmental path variables, and remove any global command-line shortcut shims automatically.
