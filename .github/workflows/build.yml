@@ -44,7 +44,7 @@ jobs:
         run: |
           echo -e "${CYAN}Upstream release version: $UPSTREAM${NC}"
           echo -e "${CYAN}Local repository version: $LOCAL${NC}"
-          
+
           if [ "$UPSTREAM" != "$LOCAL" ]; then
             echo -e "${GREEN}New release detected upstream! Triggering packaging pipeline.${NC}"
             echo "should_run=true" >> $GITHUB_OUTPUT
@@ -62,24 +62,21 @@ jobs:
       contents: write
       attestations: write
       artifact-metadata: write
+    env:
+      UPSTREAM_VERSION: ${{ needs.check-release.outputs.upstream_version }}
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout Package Source
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Run Native Update Engine Script
-        env:
-          UPSTREAM_VERSION: ${{ needs.check-release.outputs.upstream_version }}
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          .\updateall.ps1
+        run: .\updateall.ps1
 
       - name: Commit version bump via GitHub API
         uses: suzuki-shunsuke/commit-action@06e3b49d4706498d325d29bd85adc82ecf2f5d8f # v1.0.0
         id: ghcommit
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         with:
-          commit_message: "🤖 Automated version bump to v${{ needs.check-release.outputs.upstream_version }}"
+          commit_message: "🤖 Automated version bump to v${{ env.UPSTREAM_VERSION }}"
           fail_on_self_push: false
 
       - name: Attest Chocolatey Packages (SLSA Provenance)
@@ -90,23 +87,23 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
         with:
-          tag_name: "v${{ needs.check-release.outputs.upstream_version }}"
-          name: "v${{ needs.check-release.outputs.upstream_version }}"
+          tag_name: "v${{ env.UPSTREAM_VERSION }}"
+          name: "v${{ env.UPSTREAM_VERSION }}"
           files: out/*.nupkg
           body: |
-            ## Aerion Chocolatey Package `v${{ needs.check-release.outputs.upstream_version }}`
+            ## Aerion Chocolatey Package `v${{ env.UPSTREAM_VERSION }}`
 
             This is an automated tracking release providing the latest compiled Chocolatey package for **Aerion**.
 
       - name: Push to Public Chocolatey Feed Directory
         run: |
           Write-Host "Publishing compiled payloads to the public Chocolatey Community Feed..." -ForegroundColor Cyan
-          
+
           Get-ChildItem out/*.nupkg | ForEach-Object {
               Write-Host "🚀 Pushing package: $($_.Name)" -ForegroundColor Yellow
-              
+
               choco push $_.FullName --source https://push.chocolatey.org/ --api-key ${{ secrets.CHOCO_API_KEY }}
-              
+
               if ($LASTEXITCODE -ne 0) {
                   Write-Output "::error title=Chocolatey Push Failed::Failed to push package '$($_.Name)'. Terminating deployment pipeline."
                   exit 1
