@@ -8,25 +8,25 @@ The installer has been downloaded from the official GitHub Releases page and can
 
 ### AMD64 (64-bit Intel/AMD)
 1. Download the installer asset:
-   Download URL: https://github.com/hkdb/aerion/releases/download/v0.3.2/Aerion-windows-setup-amd64.exe
+   Download URL: https://github.com/hkdb/aerion/releases/download/v0.3.3/Aerion-windows-setup-amd64.exe
 2. You can use one of the following methods to obtain the checksum:
    - Use PowerShell function 'Get-FileHash -Algorithm SHA256'
    - Use Chocolatey utility 'checksum.exe'
 
    Checksum Type: sha256
-   Checksum: dc98ef2c2ad4233e1c837987f3e255323dd8401f61a600470ed968246db43f77
+   Checksum: e0a82f882c836fa3632920c893d23f7d07d421d055d2e75cfd93dd4a2864b090
 
 ---
 
 ### ARM64 (64-bit ARM)
 1. Download the installer asset:
-   Download URL: https://github.com/hkdb/aerion/releases/download/v0.3.2/Aerion-windows-setup-arm64.exe
+   Download URL: https://github.com/hkdb/aerion/releases/download/v0.3.3/Aerion-windows-setup-arm64.exe
 2. You can use one of the following methods to obtain the checksum:
    - Use PowerShell function 'Get-FileHash -Algorithm SHA256'
    - Use Chocolatey utility 'checksum.exe'
 
    Checksum Type: sha256
-   Checksum: a136fde00b51e41a6d585aad845d2ae0a662de40eee430fcf6a1cd0dc32ca617
+   Checksum: cbeabecc4d6bbf4aaaa6064761e151805307068ff79db3ed91235fa65c562adb
 
 ---
 
