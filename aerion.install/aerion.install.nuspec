@@ -56,6 +56,5 @@
   <files>
     <file src="tools\**" target="tools" exclude="tools\.skipAutoUninstall" />
     <file src="tools\.skipAutoUninstall" target="tools\.skipAutoUninstall" />
-    <file src="legal\**" target="legal" />
   </files>
 </package>
