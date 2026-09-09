@@ -161,6 +161,13 @@ foreach ($Package in $Packages) {
         $NuspecXml.package.metadata.version = $NewVersion
         Write-Host "📝 Updated $Package.nuspec root version to $NewVersion" -ForegroundColor Green
 
+        # Dynamically update the iconUrl version reference if present
+        if ($NuspecXml.package.metadata.iconUrl) {
+            $OldIconUrl = $NuspecXml.package.metadata.iconUrl
+            $NuspecXml.package.metadata.iconUrl = $OldIconUrl -replace '@v[\d\.-]+', "@v$NewVersion"
+            Write-Host "  🖼️ -> Updated iconUrl version to v$NewVersion" -ForegroundColor DarkGreen
+        }
+
         if ($NuspecXml.package.metadata.dependencies) {
             $DependencyNodes = $NuspecXml.package.metadata.dependencies.dependency |
                 Where-Object { $_.id -eq 'aerion.install' -or $_.id -eq 'aerion.portable' }

@@ -9,7 +9,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://github.com/hkdb/aerion/blob/main/LICENSE</licenseUrl>
     <projectUrl>https://aerion.3df.io</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/hkdb/aerion/main/build/appicon.png</iconUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/hkdb/aerion@v0.3.3/build/appicon.png</iconUrl>
     <summary>Aerion is a standalone lightweight e-mail client</summary>
     <description>Aerion is a standalone lightweight e-mail client inspired by [Geary](https://wiki.gnome.org/Apps/Geary).
 
