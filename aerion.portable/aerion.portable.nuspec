@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>aerion.portable</id>
-    <version>0.3.4</version>
+    <version>0.3.5</version>
     <title>Aerion (Portable)</title>
     <authors>hkdb</authors>
     <owners>Infiniti151</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://github.com/hkdb/aerion/blob/main/LICENSE</licenseUrl>
     <projectUrl>https://aerion.3df.io</projectUrl>
-    <iconUrl>https://cdn.jsdelivr.net/gh/hkdb/aerion@v0.3.4/build/appicon.png</iconUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/hkdb/aerion@v0.3.5/build/appicon.png</iconUrl>
     <summary>Aerion is a standalone lightweight e-mail client</summary>
     <description>Aerion is a standalone lightweight e-mail client inspired by [Geary](https://wiki.gnome.org/Apps/Geary).
 

@@ -6,12 +6,12 @@ $ToolsDir     = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
 $ExeName      = 'aerion.exe'
 $FileFullPath = Join-Path $ToolsDir $ExeName
 
-$Url          = 'https://github.com/hkdb/aerion/releases/download/v0.3.4/Aerion-windows-amd64.exe'
-$Checksum     = '576f35dbb17c7fde34f190f4ca2b921d0420a38d3f7cf26881548cc7e919c8f0'
+$Url          = 'https://github.com/hkdb/aerion/releases/download/v0.3.5/Aerion-windows-amd64.exe'
+$Checksum     = 'b6d211c7558060d47678a99404bcaf1d724e6869e503c5e24409caadf7b2f514'
 
 if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64' -or $env:PROCESSOR_ARCHITEW6432 -eq 'ARM64') {
-    $Url          = 'https://github.com/hkdb/aerion/releases/download/v0.3.4/Aerion-windows-arm64.exe'
-    $Checksum     = '5b994b8c8707581516b9e7fc6e6f26df0b94c1dc9d8e5bafa3bfaa8db19e40ee'
+    $Url          = 'https://github.com/hkdb/aerion/releases/download/v0.3.5/Aerion-windows-arm64.exe'
+    $Checksum     = 'd42c77f8571be98456cd2b18af77e2df267967dc5e98fe41534c433f7850ff8d'
 }
 
 $PackageArgs  = @{
