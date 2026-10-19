@@ -7,6 +7,7 @@
     <authors>hkdb</authors>
     <owners>Infiniti151</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright 2024-2025 Aerion Contributors</copyright>
     <licenseUrl>https://github.com/hkdb/aerion/blob/main/LICENSE</licenseUrl>
     <projectUrl>https://aerion.3df.io</projectUrl>
     <iconUrl>https://cdn.jsdelivr.net/gh/hkdb/aerion@v0.3.5/build/appicon.png</iconUrl>
@@ -29,11 +30,14 @@
   - Yahoo
   - Proton Mail (via Proton Bridge)
   - iCloud Mail
+  - Mailfence
+  - Murena
   - Fastmail 🧪
   - Zoho Mail 🧪
   - AOL Mail 🧪
   - GMX Mail
   - Mail.com 🧪
+  - Mailbox.org
 - Unified Inbox (Color Code Accounts)
 - Conversation Threads
 - Basic Removal of Tracking Elements in Mail Content
@@ -43,8 +47,12 @@
 - Basic Local and IMAP Search
 - Notification that brings focus to the e-mail when clicked
 - Auto-Sync when system wakes from suspend
-- Multiple color themes
-- PGP and S/MIME support
+- Multiple color themes (More to come...)
+- PGP &amp; S/MIME support
+- 1st party extension system:
+  - Calendar (ALPHA) - Disabled by Default
+  - Contacts (ALPHA) - Disabled by Default
+- Custom oAuth2 support for generic IMAP, SMTP, CardDAV, and CalDAV (Tested w/ [Stalwart](https://stalw.art/))
 - [Keyboard Shortcuts](https://github.com/hkdb/aerion/blob/main/docs/KEYBOARD_SHORTCUTS.md)</description>
     <releaseNotes>https://github.com/hkdb/aerion/blob/main/CHANGELOG.md</releaseNotes>
     <tags>email mail client portable foss cross-platform</tags>
